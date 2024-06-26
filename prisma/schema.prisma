@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  endereco String
+  telefone String
+  email    String
+
+  // Relacionamento com OLT
+  olts OLT[]
+
+  // Relacionamento com Bairro
+  bairroId Int
+  bairro   Bairro    @relation(fields: [bairroId], references: [id])
+  Usuario  Usuario[]
+}
+
+model OLT {
+  id                     Int     @id @default(autoincrement())
+  name                   String
+  oltIp                  String
+  reachableViaVpn        Boolean @default(false)
+  telnetTcpPort          String
+  oltTelnetUsername      String
+  oltTelnetPassword      String
+  snmpReadOnlyCommunity  String
+  snmpReadWriteCommunity String
+  snmpUdpPort            String
+  iptvModule             Boolean @default(false)
+  oltHardwareVersion     String
+  oltSoftwareVersion     String
+  supportedPonTypes      String
+
+  // Relacionamento com Empresa
+  empresaId Int?
+  empresa   Empresa? @relation(fields: [empresaId], references: [id])
+}
+
+model Usuario {
+  id               Int      @id @default(autoincrement())
+  nome             String
+  email            String   @unique
+  senha            String
+  dataDeNascimento DateTime
+  telefone         String
+
+  // Relacionamento com Empresa (opcional, se necessário)
+  empresaId Int?
+  empresa   Empresa? @relation(fields: [empresaId], references: [id])
+}
+
+model Cidade {
+  id   Int    @id @default(autoincrement())
+  nome String
+
+  // Relacionamento com Bairro
+  bairros Bairro[]
+}
+
+model Bairro {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  cidadeId Int
+  cidade   Cidade @relation(fields: [cidadeId], references: [id])
+
+  // Relacionamento com Empresa
+  empresas Empresa[]
+}
