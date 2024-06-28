@@ -7,9 +7,8 @@ export const getAllUsers = async (): Promise<User[]> => {
 
 
     const data = await prisma.usuario.findMany({
-        select: { nome: true, email: true, id: true }
+        select: { id: true, nome: true, email: true }
     })
-    console.log({ name: "Strey", ...data })
 
     return data
 }
