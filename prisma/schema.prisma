@@ -48,12 +48,12 @@ model OLT {
 }
 
 model Usuario {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   nome             String
-  email            String   @unique
-  senha            String
-  dataDeNascimento DateTime
-  telefone         String
+  email            String    @unique
+  senha            String?
+  dataDeNascimento DateTime?
+  telefone         String?
 
   // Relacionamento com Empresa (opcional, se necessário)
   empresaId Int?
