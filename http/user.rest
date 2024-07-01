@@ -1,0 +1,22 @@
+GET http://localhost:3000/users HTTP/1.1
+
+content-type: application/json
+###
+
+GET http://localhost:3000/user/1 HTTP/1.1
+
+content-type: application/json
+
+###
+
+post http://localhost:3000/users
+content-type: application/json
+
+{
+"nome": "Stery",
+"email": "teste@teste1.com",
+"senha": "1234567898",
+"dataDeNascimento":"{{$timestamp}}",
+"telefone": "51981754701"
+
+}
